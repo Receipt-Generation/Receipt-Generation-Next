@@ -11,11 +11,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <div className=" h-screen w-screen flex">
         <Sidebar />
         <div className=" w-full h-screen relative">
-            <header className=" shadow-sm absolute bg- border-b w-full h-12 ">
+            <header className=" shadow-sm absolute bg-white z-40 border-b w-full h-12 ">
                 Header
             </header>
                 {children}

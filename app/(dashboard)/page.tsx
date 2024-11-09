@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 export default function Home() {
+  
   return (
     <div className=" flex-1 w-full pt-12 h-full border flex justify-center gap-16 items-center flex-col">
       <div>

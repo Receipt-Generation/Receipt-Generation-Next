@@ -6,7 +6,6 @@ import {
     BadgePlus,
     ReceiptText,
     HandCoins,
-    FileChartPie
 } from "lucide-react"
 import { UserButton, useUser } from "@clerk/nextjs"
 import { FcMoneyTransfer } from "react-icons/fc";

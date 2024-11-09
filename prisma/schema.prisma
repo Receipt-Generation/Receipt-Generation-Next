@@ -20,7 +20,7 @@ model Organisation {
   orgEmail String
   orgPhone String
   orgLogo  String
-  orgDesc  String
+  orgDesc  String?
   orgUrl   String
   orgAddr  String
   ownerName String
@@ -30,10 +30,11 @@ model Organisation {
 model Transactions {
   tid         String   @id @default(cuid())
   oid         String
+  name        String
   amount      Float
   currency    String
   status      String
-  description String
+  email       String
   date        DateTime
   mailStatus  Boolean @default(false)
   Organisation Organisation @relation(fields: [oid], references: [oid])

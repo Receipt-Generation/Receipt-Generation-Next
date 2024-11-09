@@ -1,5 +1,4 @@
 'use client'
-import { SignUp } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 
 export default function Page() {
