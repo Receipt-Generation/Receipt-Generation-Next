@@ -43,8 +43,8 @@ const items = [
         icon: HandCoins,
     },
     {
-        title: "Invoices",
-        url: "/invoices",
+        title: "QR Codes",
+        url: "/paymentqrs",
         icon: ReceiptText,
     },
 ]

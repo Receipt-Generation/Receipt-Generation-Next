@@ -30,6 +30,7 @@ model Organisation {
 model Transactions {
   tid         String   @id @default(cuid())
   oid         String
+  receiptNo   Int       @unique @default(autoincrement())
   name        String
   amount      Float
   currency    String
