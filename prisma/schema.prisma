@@ -37,6 +37,8 @@ model Transactions {
   status      String
   email       String
   date        DateTime
+  Source      String?
+  Purpose     String?
   mailStatus  Boolean @default(false)
   Organisation Organisation @relation(fields: [oid], references: [oid])
 }

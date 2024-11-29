@@ -33,6 +33,11 @@ const items = [
         icon: Home,
     },
     {
+        title: "Offline Donations",
+        url: "/offdonation",
+        icon: HandCoins,
+    },
+    {
         title: "Add Donations",
         url: "/add",
         icon: BadgePlus,

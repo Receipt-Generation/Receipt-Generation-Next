@@ -35,7 +35,7 @@ const TransactionsPage = () => {
   }, []);
 
   const filteredTransactions = transactions.filter(transaction =>
-    transaction.name.includes(searchQuery) || transaction.email.includes(searchQuery)
+    transaction.name.includes(searchQuery) || transaction.email.includes(searchQuery) || transaction.receiptNo.toString().includes(searchQuery)
   );
 
   return (
@@ -51,20 +51,22 @@ const TransactionsPage = () => {
       <Table className="min-w-full bg-white">
         <TableHeader>
           <TableRow>
-            <TableHead className="py-2">ID</TableHead>
+            <TableHead className="py-2">Invoice ID</TableHead>
+            <TableHead className="py-2">Name</TableHead>
             <TableHead className="py-2">Amount</TableHead>
             <TableHead className="py-2">Currency</TableHead>
-            <TableHead className="py-2">Date</TableHead>
+            <TableHead className="py-2">Date & Time</TableHead>
             <TableHead className="py-2">Invoice</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {filteredTransactions.map((transaction, i) => (
             <TableRow key={transaction.tid} className={cn(i%2 === 0 ? 'bg-zinc-200/70': 'bg-zinc-100/70')}>
+              <TableCell className="py-2">{transaction.receiptNo}</TableCell>
               <TableCell className="py-2">{transaction.name}</TableCell>
               <TableCell className="py-2">{transaction.amount}</TableCell>
               <TableCell className="py-2">{transaction.currency}</TableCell>
-              <TableCell className="py-2">{transaction.date.toLocaleDateString()}</TableCell>
+              <TableCell className="py-2">{transaction.date.toLocaleString()}</TableCell>
               <TableCell className="py-2">
                 <Link href={`/invoice/${transaction.tid}`} className=' items-center hover:underline flex gap-2'>
                    <Book/> View Invoice

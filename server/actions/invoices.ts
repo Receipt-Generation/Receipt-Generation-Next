@@ -90,6 +90,31 @@ export async function getPaginatedTransactions(page = 1, limit = 10, orgId = 'cm
 }
 
 
+export async function getPaginatedOfflineTransactions(page = 1, limit = 10, orgId = 'cm3a66pyx0000jvb4wirvymwf') {
+    const transactions = await prisma.transactions.findMany({
+        where: {
+            oid: orgId,
+            OR: [{
+                Source: 'cash'
+            }, {
+                Source: 'cheque'
+            }, {
+                Source: 'other'
+            }]
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: {
+            date: 'desc'
+        }
+    })
+    return transactions
+}
+
+
+
+
+
 export async function getOrganisationByInvoice(invoiceId: string){
     const invoice = await prisma.transactions.findUnique({
         where: {
