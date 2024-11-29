@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import {Toaster} from 'sonner'
+import { Toaster } from 'sonner'
 import { Suspense } from "react";
+import { Providers } from "./provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,16 +29,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-       <ClerkProvider>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <Toaster/>
-          <Suspense fallback={<div>Loading...</div>}>
-        {children}
-        </Suspense>
-      </body>
-        </ClerkProvider>
+      <ClerkProvider>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <Providers>
+            <Toaster />
+            <Suspense fallback={<div>Loading...</div>}>
+              {children}
+            </Suspense>
+          </Providers>
+        </body>
+      </ClerkProvider>
     </html>
   );
 }

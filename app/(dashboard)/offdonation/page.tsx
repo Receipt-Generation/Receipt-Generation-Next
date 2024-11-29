@@ -1,6 +1,6 @@
 'use client'
-import { Book, Mail } from 'lucide-react'
-import { useState, useCallback, useEffect } from 'react'
+import { Book, Plus, Send } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -10,8 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Button } from '@/components/ui/button'
-import Papa from 'papaparse'
+import { Button } from '@nextui-org/react'
 import {
   Select,
   SelectContent,
@@ -30,9 +29,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from '@/lib/utils'
-import { set, z } from 'zod';
-import { toast } from 'sonner'
-import { getPaginatedOfflineTransactions, getPaginatedTransactions, sendMailsandInvoices } from '@/server/actions/invoices'
+import { getPaginatedOfflineTransactions } from '@/server/actions/invoices'
 import Link from 'next/link'
 import { Transactions } from '@prisma/client'
 import { Input } from '@/components/ui/input'
@@ -40,11 +37,11 @@ import { Label } from "@/components/ui/label"
 
 
 export default function FileDrop() {
-  const [dots, setDots] = useState('')
-  const [processable, setProcessable] = useState(true)
-  const [files, setFiles] = useState<File[]>([])
+  // const [dots, setDots] = useState('')
+  // const [processable, setProcessable] = useState(true)
+  // const [files, setFiles] = useState<File[]>([])
   const [invoice, setInvoice] = useState<string>('')
-  const [sending, setSending] = useState(false)
+  // const [sending, setSending] = useState(false)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -77,7 +74,7 @@ export default function FileDrop() {
   
 
   function sendInvoice(){
-    setSending(true)
+    // setSending(true)
     const data = {
       Name: `${firstName} ${lastName}`,
       Email: email,
@@ -112,7 +109,7 @@ export default function FileDrop() {
           />
           <Dialog>
             <DialogTrigger asChild>
-              <Button>Create Receipt</Button>
+              <Button variant='solid' endContent={<Plus/>} className=' text-white rounded-lg' size='md' color='success'>Create Receipt</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
@@ -276,7 +273,7 @@ export default function FileDrop() {
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit" onClick={sendInvoice}>Generate Invoice</Button>
+                <Button variant='shadow' endContent={<Send size={20}/>} className=' text-white rounded-lg' size='md' color='success' type="submit" onClick={sendInvoice}>Generate Invoice</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

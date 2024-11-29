@@ -3,7 +3,7 @@ import { Mail } from 'lucide-react'
 import { useState, useCallback, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Upload, X, Send } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@nextui-org/react'
 import Papa from 'papaparse'
 import {
   Table,
@@ -145,21 +145,19 @@ export default function FileDrop() {
             <div className=' h-16  flex justify-between items-center'>
               <div className="left">
                 <Button
-                  variant="destructive"
+                  variant='solid' startContent={<X/>} className=' top-2 left-2 text-white rounded-lg' size='md' color='danger'
                   onClick={() => removeFile()}
-                  className=" top-2 left-2"
                 >
-                  <X className="h-6 w-6" /> Remove file
+                  Remove file
                 </Button>
               </div>
               <div className="right">
                 <Button
-                  variant="default"
+                   variant='solid' endContent={<Send/>} className='top-2 right-2 text-white' radius='sm' size='md' color='success'
                   onClick={() => sendInvoice()}
-                  className=" top-2 right-2"
-                  disabled={!processable}
+                  isDisabled={!processable}
                 >
-                  <Send className="h-6 w-6" /> Send Invoice
+                  Send Invoice
                 </Button>
               </div>
             </div>
