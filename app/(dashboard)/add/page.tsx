@@ -3,15 +3,14 @@ import { Mail } from 'lucide-react'
 import { useState, useCallback, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Upload, X, Send } from 'lucide-react'
-import { Button } from '@nextui-org/react'
+import { Button, TableColumn, TableHeader } from '@nextui-org/react'
 import Papa from 'papaparse'
 import {
   Table,
   TableBody,
   TableCell,
   TableRow,
-} from "@/components/ui/table"
-import { cn } from '@/lib/utils'
+} from "@nextui-org/react"
 import { z } from 'zod';
 import { toast } from 'sonner'
 import { sendMailsandInvoices } from '@/server/actions/invoices'
@@ -30,7 +29,7 @@ export default function FileDrop() {
   const donationSchema = z.object({
     Name: z.string().min(1, { message: "Name is required" }),
     Email: z.string().email({ message: "Invalid email format" }),
-    Currency: z.enum(['CAD', 'USD'], { message: "Invalid currency" }),
+    Currency: z.enum(['CAD', 'USD', 'INR'], { message: "Invalid currency" }),
     Amount: z.number().positive({ message: "Amount must be a positive number" }),
     DateOfDonation: z.string().regex(
       /^\d{2}-[A-Za-z]{3}-\d{2}$/,
@@ -96,7 +95,7 @@ export default function FileDrop() {
           setJsonData(results.data.map((row) => ({
             Name: row[0],
             Email: row[1],
-            Currency: row[2] as "CAD" | "USD",
+            Currency: row[2] as "CAD" | "USD" | "INR",
             Amount: Number(row[3]),
             DateOfDonation: row[4],
             PaymentStatus: row[5] as "Success" | "Failed",
@@ -133,7 +132,7 @@ export default function FileDrop() {
         {files.length === 0 ?
           <div
             {...getRootProps()}
-            className={`p-8 border-2 max-w-3xl h-[50vh] border-dashed rounded-lg text-center cursor-pointer w-full flex justify-center items-center flex-col transition-colors ${isDragActive ? 'border-primary bg-primary/10' : 'border-gray-300 hover:border-primary'
+            className={`p-8 border-2 max-w-3xl h-[50vh] border-dashed border-zinc-600 rounded-lg text-center cursor-pointer w-full flex justify-center items-center flex-col transition-colors ${isDragActive ? 'border-primary bg-primary/10' : 'border-gray-300 hover:border-primary'
               }`}
           >
             <input {...getInputProps()} />
@@ -161,18 +160,28 @@ export default function FileDrop() {
                 </Button>
               </div>
             </div>
-            <div className=' border-t-8 overflow-auto relative z-0 h-full'>
-              <Table>
-                <TableBody className=' z-10 relative h-full'>
-                  {csvData.map((row, i) => (
-                    <TableRow key={i} className={cn(i === 0 ? 'font-bold sticky ' : 'font-medium')}>
-                      {row.map((cell, j) => (
-                        <TableCell key={cell + j}>{cell}</TableCell>
+            <div className=' mt-8  overflow-auto relative z-0 h-full dark'>
+                {csvData && csvData.length > 0 && <Table aria-label="datatable dark">
+                  <TableHeader>
+                    {csvData[0]?.map((cell, index) => (
+                    <TableColumn key={index}>{cell}</TableColumn>
+                    ))}
+                    {/* <TableColumn>Email</TableColumn>
+                    <TableColumn>Currency</TableColumn>
+                    <TableColumn>Amount</TableColumn>
+                    <TableColumn>Date</TableColumn>
+                    <TableColumn>Status</TableColumn> */}
+                  </TableHeader>
+                  <TableBody>
+                    {csvData?.slice(1).map((row, index) => (
+                      <TableRow className='text-zinc-300' key={index}>
+                      {row?.map((cell, cellIndex) => (
+                        <TableCell key={cellIndex}>{cell}</TableCell>
                       ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>}
             </div>
           </div> :
           <div className="flex flex-col items-center justify-center min-h-screen bg-white">

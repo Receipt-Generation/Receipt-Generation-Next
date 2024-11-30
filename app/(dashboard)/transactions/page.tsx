@@ -18,13 +18,14 @@ import {
   TableColumn,
   TableRow,
   TableCell,
-  Spinner
+  Spinner,
+  Chip
 } from "@nextui-org/react";
 
 import { Button, Input } from '@nextui-org/react';
 import Link from 'next/link';
 import { Book, Search } from 'lucide-react';
-import { cn } from '@/lib/utils';
+
 
 
 const TransactionsPage = () => {
@@ -34,6 +35,13 @@ const TransactionsPage = () => {
   const [page, setPage] = useState(0);
   const [firstloading, setFirstLoading] = useState(true);
 
+
+  const colorCurrency: Record<string, 'success' | 'warning' | 'primary'> = {
+    "USD": 'success',
+    "CAD": 'warning',
+    "INR": 'primary'
+  }
+  
   const fetchTransactions = async () => {
     setLoading(true);
     try {
@@ -57,8 +65,8 @@ const TransactionsPage = () => {
   );
 
   return (
-    <div className=" p-20 dark flex-1 w-full flex flex-col items-center pt-12 h-full border ">
-      <div className='w-full flex justify-center items-center gap-3'>
+    <div className=" p-20  flex-1 w-full flex flex-col items-center pt-12 h-full border ">
+      <div className='w-full flex justify-center items-center gap-3 my-6'>
       <Input
         type="text"
         placeholder="Search by Name or Email"
@@ -74,7 +82,7 @@ const TransactionsPage = () => {
       </Button>
         </div>
 
-      <Table isStriped  className="min-w-full"
+      <Table isStriped  className="min-w-full dark"
       aria-label="Example table with client side sorting"
       bottomContent={
         (
@@ -102,12 +110,12 @@ const TransactionsPage = () => {
           // emptyContent={"No rows to display."}
         loadingContent={<Spinner label="Loading..." />}
         >
-          {filteredTransactions ? filteredTransactions.map((transaction, i) => (
+          {filteredTransactions ? filteredTransactions.map((transaction) => (
             <TableRow className=' text-zinc-200' key={transaction.tid}>
               <TableCell className="py-2">{transaction.receiptNo}</TableCell>
               <TableCell className="py-2 font-semibold">{transaction.name}</TableCell>
               <TableCell className="py-2">{transaction.amount.toFixed(2).toString()}</TableCell>
-              <TableCell className="py-2">{transaction.currency}</TableCell>
+              <TableCell className="py-2"><Chip size='sm' color={colorCurrency[transaction.currency as keyof typeof colorCurrency] as "default" | "success" | "warning" | "primary" | "secondary" | "danger"}>{transaction.currency}</Chip></TableCell>
               <TableCell className="py-2">{transaction.email}</TableCell>
               <TableCell className="py-2">{transaction.date.toLocaleString()}</TableCell>
               <TableCell className="py-2">
