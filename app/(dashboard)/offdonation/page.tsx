@@ -101,22 +101,21 @@ export default function FileDrop() {
   return (
     <div className="min-h-screen flex items-center flex-col z-10 justify-center bg-gray-100 p-4">
       <div className=' flex flex-col h-full  w-full gap-2 flex-1  mt-12 p-5'>
-        <header className=' h-16 shadow-md w-full flex justify-between px-5 rounded-lg items-center dark bg-[#18181b]'>
-          <h1 className=' text-xl font-semibold text-zinc-300'>Offline Donations</h1>
+        <header className=' h-16 shadow-md w-full flex justify-between px-5 rounded-lg items-center bg-first'>
+          <h1 className=' text-xl font-semibold text-zinc-800'>Offline Donations</h1>
           <Input
             type="text"
             placeholder="Search by Name or Email"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="  w-1/3 border-zinc-400"
-            variant='bordered'
-            radius='sm'
+            className="  w-1/3 placeholder:text-zinc-100 text-zinc-800 bg-third rounded-md"
+            radius='md'
           />
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant='shadow' endContent={<Plus/>} className=' text-white rounded-lg' size='sm' color='success'>Create Receipt</Button>
+              <Button variant='shadow' endContent={<Plus/>} className=' bg-second text-white rounded-lg' size='sm'>Create Receipt</Button>
             </DialogTrigger>
-            <DialogContent className="dark text-zinc-200 shadow-3xl shadow-zinc-500/40 sm:max-w-[475px]">
+            <DialogContent className=" text-zinc-800 shadow-3xl shadow-zinc-500/40 sm:max-w-[475px]">
               <DialogHeader>
                 <DialogTitle>Create Receipt</DialogTitle>
                 <DialogDescription>
@@ -298,13 +297,13 @@ export default function FileDrop() {
                 </div>
               </div>
               <DialogFooter>
-                <Button variant='shadow' endContent={<Send size={20}/>} className=' text-white rounded-lg' size='md' color='success' type="submit" onClick={sendInvoice}>Generate Invoice</Button>
+                <Button variant='shadow' endContent={<Send size={20}/>} className=' text-white rounded-lg bg-fourth' size='md' type="submit" onClick={sendInvoice}>Generate Invoice</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </header>
         <div className=' flex-1 p-5 h-full w-full'>
-          <Table className="min-w-full bg-white dark">
+          <Table className="min-w-full">
             <TableHeader>
                 <TableColumn className="py-2">Name</TableColumn>
                 <TableColumn className="py-2">Amount</TableColumn>
@@ -313,9 +312,9 @@ export default function FileDrop() {
                 <TableColumn className="py-2">Date</TableColumn>
                 <TableColumn className="py-2">Invoice</TableColumn>
             </TableHeader>
-            <TableBody>
+            <TableBody className=' '>
               {filteredTransactions.map((transaction) => (
-                <TableRow key={transaction.tid}  className=' text-zinc-300'>
+                <TableRow key={transaction.tid}  className=' text-zinc-800'>
                   <TableCell className="py-2">{transaction.name}</TableCell>
                   <TableCell className="py-2">{transaction.amount}</TableCell>
                   <TableCell className="py-2"> <Chip color={colorCurrency[transaction.currency]} size='sm'>{transaction.currency}</Chip></TableCell>

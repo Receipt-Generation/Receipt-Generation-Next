@@ -15,8 +15,8 @@ export default function RootLayout({
   return (
     <div className=" h-screen w-screen flex ">
         <Sidebar />
-        <div className=" w-full h-screen relative">
-            <header className=" text-zinc-300 shadow-sm absolute bg-[#18181b] flex justify-end items-center px-5 z-40 border-b w-full h-16 ">
+        <div className=" w-full h-screen relative bg-third">
+            <header className=" text-zinc-300 shadow-sm absolute bg-first flex justify-end items-center px-5 z-40 border-b w-full h-16 ">
               <UserButton showName />
             </header>
                 {children}

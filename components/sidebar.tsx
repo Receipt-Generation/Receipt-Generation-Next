@@ -5,7 +5,7 @@ import { AppSidebar } from './app-sidebar'
 function Sidebar() {
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar className='bg-first border-none' />
     </SidebarProvider>
   )
 }

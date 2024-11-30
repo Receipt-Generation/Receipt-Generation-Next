@@ -77,24 +77,25 @@ const TransactionsPage = () => {
         radius='sm'
 
         />
-      <Button radius='sm' className=' bg-zinc-900 text-white' endContent={<Search size={20}/>} >
+      <Button radius='sm' className=' bg-fourth text-white' endContent={<Search size={20}/>} >
         Search
       </Button>
         </div>
 
-      <Table isStriped  className="min-w-full dark"
-      aria-label="Example table with client side sorting"
+      <Table isStriped  className="min-w-full max-h-[80vh] "
+      isHeaderSticky
+      aria-label="Transactions Table"
       bottomContent={
         (
-          <div className="flex w-full justify-center">
-            <Button isDisabled={loading} variant="flat" onPress={fetchTransactions}>
-              {loading && <Spinner color="white" size="sm" />}
+          <div className="flex w-full justify-center ">
+            <Button isDisabled={loading} variant="solid" onPress={fetchTransactions}>
+              {loading && <Spinner className=' text-zinc-700' size="sm" />}
               Load More
             </Button>
           </div>
         ) 
       }>
-        <TableHeader className=' bg-zinc-800'>
+        <TableHeader className=' bg- '>
           {/* <TableRow> */}
             <TableColumn className="py-2">Invoice ID</TableColumn>
             <TableColumn className="py-2" allowsSorting allowsResizing>Name</TableColumn>
@@ -108,10 +109,10 @@ const TransactionsPage = () => {
         <TableBody
         isLoading={firstloading}
           // emptyContent={"No rows to display."}
-        loadingContent={<Spinner label="Loading..." />}
+        loadingContent={<Spinner className=' text-zinc-700' label="Loading..." />}
         >
           {filteredTransactions ? filteredTransactions.map((transaction) => (
-            <TableRow className=' text-zinc-200' key={transaction.tid}>
+            <TableRow className=' text-zinc-800' key={transaction.tid}>
               <TableCell className="py-2">{transaction.receiptNo}</TableCell>
               <TableCell className="py-2 font-semibold">{transaction.name}</TableCell>
               <TableCell className="py-2">{transaction.amount.toFixed(2).toString()}</TableCell>

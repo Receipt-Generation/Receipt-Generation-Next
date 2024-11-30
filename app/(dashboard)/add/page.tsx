@@ -14,6 +14,7 @@ import {
 import { z } from 'zod';
 import { toast } from 'sonner'
 import { sendMailsandInvoices } from '@/server/actions/invoices'
+import { cn } from '@/lib/utils'
 
 
 
@@ -120,6 +121,7 @@ export default function FileDrop() {
     setSending(true)
     if (jsonData) {
       await sendMailsandInvoices(jsonData)
+      setFiles([])
       toast.success("Invoice sent successfully!")
     } else {
       toast.error("No data to send.");
@@ -144,7 +146,7 @@ export default function FileDrop() {
             <div className=' h-16  flex justify-between items-center'>
               <div className="left">
                 <Button
-                  variant='solid' startContent={<X/>} className=' top-2 left-2 text-white rounded-lg' size='md' color='danger'
+                  variant='solid' startContent={<X/>} className=' top-2 left-2 text-white rounded-lg bg-red-500' size='md'
                   onClick={() => removeFile()}
                 >
                   Remove file
@@ -152,7 +154,7 @@ export default function FileDrop() {
               </div>
               <div className="right">
                 <Button
-                   variant='solid' endContent={<Send/>} className='top-2 right-2 text-white' radius='sm' size='md' color='success'
+                   variant='solid' endContent={<Send/>} className='top-2 right-2 text-white bg-second' radius='sm' size='md'
                   onClick={() => sendInvoice()}
                   isDisabled={!processable}
                 >
@@ -160,8 +162,8 @@ export default function FileDrop() {
                 </Button>
               </div>
             </div>
-            <div className=' mt-8  overflow-auto relative z-0 h-full dark'>
-                {csvData && csvData.length > 0 && <Table aria-label="datatable dark">
+            <div className=' mt-8  overflow-auto relative z-0 h-full'>
+                {csvData && csvData.length > 0 && <Table aria-label="datatable ">
                   <TableHeader>
                     {csvData[0]?.map((cell, index) => (
                     <TableColumn key={index}>{cell}</TableColumn>
@@ -174,9 +176,9 @@ export default function FileDrop() {
                   </TableHeader>
                   <TableBody>
                     {csvData?.slice(1).map((row, index) => (
-                      <TableRow className='text-zinc-300' key={index}>
+                      <TableRow className='text-zinc-700' key={index}>
                       {row?.map((cell, cellIndex) => (
-                        <TableCell key={cellIndex}>{cell}</TableCell>
+                        <TableCell key={cellIndex} className={cn(cellIndex === 0 && "font-semibold")} >{cell}</TableCell>
                       ))}
                       </TableRow>
                     ))}
@@ -184,7 +186,7 @@ export default function FileDrop() {
                 </Table>}
             </div>
           </div> :
-          <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+          <div className="flex flex-col items-center justify-center min-h-screen">
           <div className="relative mb-4">
             <Mail className="w-16 h-16 text-blue-500" />
           </div>
