@@ -11,9 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Input } from '@/components/ui/input';
+import { Button, Input } from '@nextui-org/react';
 import Link from 'next/link';
-import { Book } from 'lucide-react';
+import { Book, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 
@@ -40,13 +40,21 @@ const TransactionsPage = () => {
 
   return (
     <div className=" p-20  flex-1 w-full flex flex-col items-center pt-12 h-full border ">
+      <div className='w-full flex justify-center items-center gap-3'>
       <Input
         type="text"
         placeholder="Search by Name or Email"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="mb-4 mt-8 p-2 border w-1/2 border-zinc-400"
-      />
+        className="w-1/2 my-3"
+        variant='bordered'
+        radius='sm'
+
+        />
+      <Button radius='sm' className=' bg-zinc-900 text-white' endContent={<Search size={20}/>} >
+        Search
+      </Button>
+        </div>
 
       <Table className="min-w-full bg-white">
         <TableHeader>

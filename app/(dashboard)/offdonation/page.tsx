@@ -32,7 +32,7 @@ import { cn } from '@/lib/utils'
 import { getPaginatedOfflineTransactions } from '@/server/actions/invoices'
 import Link from 'next/link'
 import { Transactions } from '@prisma/client'
-import { Input } from '@/components/ui/input'
+import { Input } from '@nextui-org/react'
 import { Label } from "@/components/ui/label"
 
 
@@ -105,13 +105,15 @@ export default function FileDrop() {
             placeholder="Search by Name or Email"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className=" p-2 border w-1/3 border-zinc-400"
+            className="  w-1/3 border-zinc-400"
+            variant='bordered'
+            radius='sm'
           />
           <Dialog>
             <DialogTrigger asChild>
               <Button variant='solid' endContent={<Plus/>} className=' text-white rounded-lg' size='md' color='success'>Create Receipt</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[475px]">
               <DialogHeader>
                 <DialogTitle>Create Receipt</DialogTitle>
                 <DialogDescription>
@@ -120,39 +122,48 @@ export default function FileDrop() {
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-left">
+                  {/* <Label htmlFor="name" className="text-left">
                     First Name
-                  </Label>
+                  </Label> */}
                   <Input
                   onChange={(e) => setFirstName(e.target.value)}
                   value={firstName}
-                  required
+                  isRequired
                     id="fname"
-                    className="col-span-3 outline-none"
+                    className="col-span-4 outline-none"
+                    variant='bordered'
+                    radius='sm'
+                    label='First Name'
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-left">
+                  {/* <Label htmlFor="username" className="text-left">
                     Last Name
-                  </Label>
+                  </Label> */}
                   <Input
                   onChange={(e) => setLastName(e.target.value)}
                   value={lastName}
                     id="lname"
-                    className="col-span-3 outline-none"
+                    className="col-span-4 outline-none"
+                    variant='bordered'
+                    radius='sm'
+                    label='Last Name'
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="email" className="text-left">
+                  {/* <Label htmlFor="email" className="text-left">
                     Email ID
-                  </Label>
+                  </Label> */}
                   <Input
-                  required
+                  isRequired
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                     id="email"  
                     type="email"
-                    className="col-span-3 outline-none"
+                    className="col-span-4 outline-none"
+                    variant='bordered'
+                    label='Email ID'
+                    radius='sm'
                   />
                 </div>
                 <div className='grid grid-cols-4 items-center gap-4'>
@@ -201,12 +212,15 @@ export default function FileDrop() {
                       Amount
                     </Label>
                     <Input
-                    required
+                    isRequired
                       onChange={(e) => setAmount(parseFloat(e.target.value))}
                       id="amount"
                       type="number"
-                      value={amount}
+                      value={amount.toString()}
                       className="col-span-3 outline-none"
+                      variant='bordered'
+                      radius='sm'
+                  
                     />
                   </div>
                   <div>
@@ -237,12 +251,15 @@ export default function FileDrop() {
                       Date
                     </Label>
                     <Input
-                    required
+                    isRequired
                       onChange={(e) => setDate(new Date(e.target.value))}
                       id="date"
                       type="datetime-local"
                       value={date.toISOString().split('Z')[0]}
                       className="col-span-3 outline-none"
+                      variant='bordered'
+                      radius='sm'
+
                     />
                   </div>
                   <div>
@@ -256,6 +273,8 @@ export default function FileDrop() {
                       type="text"
                       className="col-span-3 outline-none"
                       placeholder='Leave empty for auto-generate'
+                      variant='bordered'
+                      radius='sm'
                     />
                   </div>
                   </div>
@@ -269,6 +288,9 @@ export default function FileDrop() {
                     placeholder='Transaction ID (Optional)'
                     id="transId"
                     className="col-span-4 outline-none"
+                    variant='bordered'
+                    radius='sm'
+
                   />
                 </div>
               </div>
