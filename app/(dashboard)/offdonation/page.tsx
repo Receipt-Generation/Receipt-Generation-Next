@@ -1,6 +1,6 @@
 'use client'
-import { Book, Mail } from 'lucide-react'
-import { useState, useCallback, useEffect } from 'react'
+import { Book, Plus, Send } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -10,8 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Button } from '@/components/ui/button'
-import Papa from 'papaparse'
+import { Button } from '@nextui-org/react'
 import {
   Select,
   SelectContent,
@@ -23,28 +22,30 @@ import {
 } from "@/components/ui/select"
 import {
   Table,
-  TableBody,
-  TableCell,
-  TableHead,
   TableHeader,
+  TableBody,
+  TableColumn,
   TableRow,
-} from "@/components/ui/table"
-import { cn } from '@/lib/utils'
-import { set, z } from 'zod';
-import { toast } from 'sonner'
-import { getPaginatedOfflineTransactions, getPaginatedTransactions, sendMailsandInvoices } from '@/server/actions/invoices'
+  TableCell
+} from "@nextui-org/react";
+import { getPaginatedOfflineTransactions } from '@/server/actions/invoices'
 import Link from 'next/link'
 import { Transactions } from '@prisma/client'
-import { Input } from '@/components/ui/input'
+import { Input } from '@nextui-org/react'
 import { Label } from "@/components/ui/label"
-
+import {Chip} from "@nextui-org/react";
 
 export default function FileDrop() {
-  const [dots, setDots] = useState('')
-  const [processable, setProcessable] = useState(true)
-  const [files, setFiles] = useState<File[]>([])
+  const colorCurrency: Record<string, 'success' | 'warning' | 'primary'> = {
+    "USD": 'success',
+    "CAD": 'warning',
+    "INR": 'primary'
+  }
+  // const [dots, setDots] = useState('')
+  // const [processable, setProcessable] = useState(true)
+  // const [files, setFiles] = useState<File[]>([])
   const [invoice, setInvoice] = useState<string>('')
-  const [sending, setSending] = useState(false)
+  // const [sending, setSending] = useState(false)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -74,10 +75,9 @@ export default function FileDrop() {
     transaction.name.includes(searchQuery) || transaction.email.includes(searchQuery)
   );
 
-  
 
   function sendInvoice(){
-    setSending(true)
+    // setSending(true)
     const data = {
       Name: `${firstName} ${lastName}`,
       Email: email,
@@ -100,21 +100,23 @@ export default function FileDrop() {
 
   return (
     <div className="min-h-screen flex items-center flex-col z-10 justify-center bg-gray-100 p-4">
-      <div className=' flex flex-col h-full  w-full gap-4 flex-1  mt-12'>
-        <header className=' h-16 shadow-md w-full flex justify-between px-5 items-center'>
-          <h1 className=' text-xl font-semibold'>Offline Donations</h1>
+      <div className=' flex flex-col h-full  w-full gap-2 flex-1  mt-12 p-5'>
+        <header className=' h-16 shadow-md w-full flex justify-between px-5 rounded-lg items-center dark bg-[#18181b]'>
+          <h1 className=' text-xl font-semibold text-zinc-300'>Offline Donations</h1>
           <Input
             type="text"
             placeholder="Search by Name or Email"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className=" p-2 border w-1/3 border-zinc-400"
+            className="  w-1/3 border-zinc-400"
+            variant='bordered'
+            radius='sm'
           />
           <Dialog>
             <DialogTrigger asChild>
-              <Button>Create Receipt</Button>
+              <Button variant='shadow' endContent={<Plus/>} className=' text-white rounded-lg' size='sm' color='success'>Create Receipt</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="dark text-zinc-200 shadow-3xl shadow-zinc-500/40 sm:max-w-[475px]">
               <DialogHeader>
                 <DialogTitle>Create Receipt</DialogTitle>
                 <DialogDescription>
@@ -123,39 +125,48 @@ export default function FileDrop() {
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-left">
+                  {/* <Label htmlFor="name" className="text-left">
                     First Name
-                  </Label>
+                  </Label> */}
                   <Input
                   onChange={(e) => setFirstName(e.target.value)}
                   value={firstName}
-                  required
+                  isRequired
                     id="fname"
-                    className="col-span-3 outline-none"
+                    className="col-span-4 outline-none"
+                    variant='bordered'
+                    radius='sm'
+                    label='First Name'
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-left">
+                  {/* <Label htmlFor="username" className="text-left">
                     Last Name
-                  </Label>
+                  </Label> */}
                   <Input
                   onChange={(e) => setLastName(e.target.value)}
                   value={lastName}
                     id="lname"
-                    className="col-span-3 outline-none"
+                    className="col-span-4 outline-none"
+                    variant='bordered'
+                    radius='sm'
+                    label='Last Name'
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="email" className="text-left">
+                  {/* <Label htmlFor="email" className="text-left">
                     Email ID
-                  </Label>
+                  </Label> */}
                   <Input
-                  required
+                  isRequired
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                     id="email"  
                     type="email"
-                    className="col-span-3 outline-none"
+                    className="col-span-4 outline-none"
+                    variant='bordered'
+                    label='Email ID'
+                    radius='sm'
                   />
                 </div>
                 <div className='grid grid-cols-4 items-center gap-4'>
@@ -204,12 +215,15 @@ export default function FileDrop() {
                       Amount
                     </Label>
                     <Input
-                    required
+                    isRequired
                       onChange={(e) => setAmount(parseFloat(e.target.value))}
                       id="amount"
                       type="number"
-                      value={amount}
+                      value={amount.toString()}
                       className="col-span-3 outline-none"
+                      variant='bordered'
+                      radius='sm'
+                  
                     />
                   </div>
                   <div>
@@ -240,12 +254,15 @@ export default function FileDrop() {
                       Date
                     </Label>
                     <Input
-                    required
+                    isRequired
                       onChange={(e) => setDate(new Date(e.target.value))}
                       id="date"
                       type="datetime-local"
                       value={date.toISOString().split('Z')[0]}
                       className="col-span-3 outline-none"
+                      variant='bordered'
+                      radius='sm'
+
                     />
                   </div>
                   <div>
@@ -259,6 +276,8 @@ export default function FileDrop() {
                       type="text"
                       className="col-span-3 outline-none"
                       placeholder='Leave empty for auto-generate'
+                      variant='bordered'
+                      radius='sm'
                     />
                   </div>
                   </div>
@@ -272,33 +291,34 @@ export default function FileDrop() {
                     placeholder='Transaction ID (Optional)'
                     id="transId"
                     className="col-span-4 outline-none"
+                    variant='bordered'
+                    radius='sm'
+
                   />
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit" onClick={sendInvoice}>Generate Invoice</Button>
+                <Button variant='shadow' endContent={<Send size={20}/>} className=' text-white rounded-lg' size='md' color='success' type="submit" onClick={sendInvoice}>Generate Invoice</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </header>
         <div className=' flex-1 p-5 h-full w-full'>
-          <Table className="min-w-full bg-white">
+          <Table className="min-w-full bg-white dark">
             <TableHeader>
-              <TableRow>
-                <TableHead className="py-2">Name</TableHead>
-                <TableHead className="py-2">Amount</TableHead>
-                <TableHead className="py-2">Currency</TableHead>
-                <TableHead className="py-2">Source</TableHead>
-                <TableHead className="py-2">Date</TableHead>
-                <TableHead className="py-2">Invoice</TableHead>
-              </TableRow>
+                <TableColumn className="py-2">Name</TableColumn>
+                <TableColumn className="py-2">Amount</TableColumn>
+                <TableColumn className="py-2">Currency</TableColumn>
+                <TableColumn className="py-2">Source</TableColumn>
+                <TableColumn className="py-2">Date</TableColumn>
+                <TableColumn className="py-2">Invoice</TableColumn>
             </TableHeader>
             <TableBody>
-              {filteredTransactions.map((transaction, i) => (
-                <TableRow key={transaction.tid} className={cn(i % 2 === 0 ? 'bg-zinc-200/70' : 'bg-zinc-100/70')}>
+              {filteredTransactions.map((transaction) => (
+                <TableRow key={transaction.tid}  className=' text-zinc-300'>
                   <TableCell className="py-2">{transaction.name}</TableCell>
                   <TableCell className="py-2">{transaction.amount}</TableCell>
-                  <TableCell className="py-2">{transaction.currency}</TableCell>
+                  <TableCell className="py-2"> <Chip color={colorCurrency[transaction.currency]} size='sm'>{transaction.currency}</Chip></TableCell>
                   <TableCell className="py-2">{transaction.Source}</TableCell>
                   <TableCell className="py-2">{transaction.date.toLocaleDateString()}</TableCell>
                   <TableCell className="py-2">

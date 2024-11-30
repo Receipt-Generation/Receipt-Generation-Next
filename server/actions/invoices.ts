@@ -10,7 +10,7 @@ const prisma = new PrismaClient()
 const donationSchema = z.object({
     Name: z.string().min(1, { message: "Name is required" }),
     Email: z.string().email({ message: "Invalid email format" }),
-    Currency: z.enum(['CAD', 'USD'], { message: "Invalid currency" }),
+    Currency: z.enum(['CAD', 'USD', 'INR'], { message: "Invalid currency" }),
     Amount: z.number().positive({ message: "Amount must be a positive number" }),
     DateOfDonation: z.string().regex(
       /^\d{2}-[A-Za-z]{3}-\d{2}$/,
@@ -75,7 +75,7 @@ export async function mailSentUpdate(tid: string){
 }
 
 
-export async function getPaginatedTransactions(page = 1, limit = 10, orgId = 'cm3a66pyx0000jvb4wirvymwf') {
+export async function getPaginatedTransactions(page = 1, limit = 5, orgId = 'cm3a66pyx0000jvb4wirvymwf') {
     const transactions = await prisma.transactions.findMany({
         where: {
             oid: orgId
@@ -83,7 +83,7 @@ export async function getPaginatedTransactions(page = 1, limit = 10, orgId = 'cm
         skip: (page - 1) * limit,
         take: limit,
         orderBy: {
-            date: 'desc'
+            receiptNo: 'desc'
         }
     })
     return transactions
