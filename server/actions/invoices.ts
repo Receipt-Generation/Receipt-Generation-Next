@@ -75,7 +75,7 @@ export async function mailSentUpdate(tid: string){
 }
 
 
-export async function getPaginatedTransactions(page = 1, limit = 20, orgId = 'cm3a66pyx0000jvb4wirvymwf') {
+export async function getPaginatedTransactions(page = 1, limit = 5, orgId = 'cm3a66pyx0000jvb4wirvymwf') {
     const transactions = await prisma.transactions.findMany({
         where: {
             oid: orgId
