@@ -25,6 +25,7 @@ model Organisation {
   orgAddr  String
   ownerName String
   Transactions Transactions[]
+  Campaigns Campaigns[]
 }
 
 model Transactions {
@@ -40,5 +41,18 @@ model Transactions {
   Source      String?
   Purpose     String?
   mailStatus  Boolean @default(false)
+  Organisation Organisation @relation(fields: [oid], references: [oid])
+}
+
+model Campaigns {
+  cid         String   @id @default(cuid())
+  oid         String
+  name        String
+  suggestedamount      Float?
+  status      String
+  created     String
+  productId   String
+  priceId     String
+  paymentLink String
   Organisation Organisation @relation(fields: [oid], references: [oid])
 }
