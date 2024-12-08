@@ -6,12 +6,14 @@ import {
     BadgePlus,
     ReceiptText,
     HandCoins,
+    UserRoundPen,
 } from "lucide-react"
 import { FcMoneyTransfer } from "react-icons/fc";
 
 import {
     Sidebar,
     SidebarContent,
+    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
@@ -51,6 +53,11 @@ const items = [
         title: "QR Codes",
         url: "/paymentqrs",
         icon: ReceiptText,
+    },    
+    {
+        title: "Profile",
+        url: "/profile",
+        icon: UserRoundPen,
     },
 ]
 
@@ -61,7 +68,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     return (
         <Sidebar collapsible="icon" className=""  {...props}>
-            <SidebarHeader className=" items-center flex mb-2  h-16 justify-center flex-row">
+            <SidebarHeader className=" items-center flex mb-2  h-16 justify-center flex-row ">
                 <FcMoneyTransfer className="mr-2 text-3xl" />
                 <h1 className="text-lg font-semibold text-zinc-900">Donation Manager</h1>
             </SidebarHeader>
